@@ -11,19 +11,19 @@ import pygame, sys
 from pygame.locals import *
 import pygame.camera
 
-width = 640
-height = 640
+width = 640    # set microscope picture width
+height = 640   # set microscope picture height
 
 #initialise pygame
 pygame.init()
 pygame.camera.init()
 
 
-os.system("sudo pigpiod")
+os.system("sudo pigpiod")   #use pigpiod for more reliable timing than the native raspi "time"
 app = gui()
 
-ROWS = 24       # number of rows in the tray
-COLS = 12      # number of columns in tray
+ROWS = 24      # number of rows in the crystalization tray
+COLS = 12      # number of columns in crystalization tray
 
 x_DIR = 20     # x_DIRection GPIO Pin
 x_STEP = 21    # x_STEP GPIO Pin
@@ -54,7 +54,7 @@ pi.set_mode(SWITCH_Y, pigpio.INPUT)
 pi.set_pull_up_down(SWITCH_Y, pigpio.PUD_UP)
 
 def generate_ramp(ramp, motor):
-    """Generate ramp wave forms.
+    """Generate ramp wave forms to pulse the stepper motors
     ramp:  List of [Frequency, x_STEPs]
     """
     if(motor == 'x'):
@@ -234,8 +234,8 @@ def return_home():
        move_y_axis(1, 0)           # move y_axis other direction until kill switch is open
 
 #move_y_axis(0, 1, 1)
-app.setSize(500,500)
+app.setSize(500,500)               # set application size
 app.addButton("Start Picture Sequence", picture_sequence)
 app.addButton("Return Home", return_home)
-app.go()
+app.go()    # launch application
 
